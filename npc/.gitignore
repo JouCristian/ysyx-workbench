@@ -1,12 +1,31 @@
 *.*
 *
 !*/
+
 !Makefile
 !*.mk
-!*.[cSh]
-!*.v
+
+# C/C++ and assembly sources
+!*.c
 !*.cc
 !*.cpp
+!*.h
+!*.S
+
+# RTL sources
+!*.v
+!*.sv
+!*.vh
+!*.svh
+
+# Constraint files
+!*.nxdc
+!*.sdc
+
 !.gitignore
 !README.md
-build/
+
+# Generated files and duplicated experiments
+/build/
+/history/
+/sim/

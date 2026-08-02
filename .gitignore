@@ -12,3 +12,8 @@
 !init.sh
 /fceux-am
 /nvboard
+/am-kernels/
+/yosys-sta/
+
+/E4/
+/E5/
