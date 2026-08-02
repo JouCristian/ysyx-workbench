@@ -1,47 +1,34 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
+#include<nvboard.h>
+#include<Vtop.h>
 
-#include "Vtop.h"
-#include "verilated.h"
-#include "verilated_fst_c.h"
+static TOP_NAME dut;
 
-int main(int argc, char **argv){
-	VerilatedContext *contextp = new VerilatedContext;
-	contextp->commandArgs(argc,argv);
-	
-	//告诉 Verilator 本次仿真需要记录波形
-	Verilated::traceEverOn(true);
+void nvboard_bind_all_pins(TOP_NAME *dut);
 
-	Vtop *top = new Vtop{contextp};
-	
-	//创建 FST 波形记录对象
-	VerilatedFstC *tfp = new VerilatedFstC;
-	top->trace(tfp,99);
-	tfp->open("wave.fst");
-	int i = 0;
-	while(i != 20){
-		i ++;
-		int a = std::rand() & 1;
-		int b = std::rand() & 1;
-		top->a = a;
-		top->b = b;
-		top->eval();
+/*static void single_cycle(){
+	dut.clk = 0;
+	dut.eval();
+	dut.clk = 1;
+	dut.eval();
+}*/
 
-		//contextp->time() 返回当前的仿真时间 记录回tfp波形文件
-		tfp->dump(contextp->time());
-		std::printf("time = %llu, a = %d, b = %d, f = %d\n",static_cast<unsigned long long>(contextp->time()), 
-				a,b,static_cast<int>(top->f));
-		assert(top->f == (a ^ b));
-		contextp->timeInc(1);
+/*static void reset(int n){
+	dut.rst = 1;
+	while(n -- > 0) single_cycle();
+	dut.rst = 0;
+}*/
+
+int main(){
+	nvboard_bind_all_pins(&dut);
+	nvboard_init();
+
+	while(1){
+		nvboard_update();
+		dut.eval();
 	}
-	top->final();
 
-	tfp->close();
+	dut.final();
+	nvboard_quit();
 
-	delete tfp;
-	delete top;
-	delete contextp;
 	return 0;
 }
-
