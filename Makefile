@@ -45,3 +45,13 @@ _default:
 	@echo "Please run 'make' under subprojects."
 
 .PHONY: .git_commit .clean_index _default
+
+
+.PHONY: gitdiff
+
+b1 ?= pa0
+b2 ?= pa1
+dir ?=
+
+gitdiff:
+	git diff --numstat $(b1)..$(b2) -- $(dir)

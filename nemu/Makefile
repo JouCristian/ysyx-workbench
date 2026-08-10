@@ -62,3 +62,12 @@ else
 # Include rules to build NEMU
 include $(NEMU_HOME)/scripts/native.mk
 endif
+
+.PHONY: count
+
+count:
+	@echo "Total lines of C/H files:"
+	@find $(NEMU_HOME) -type f \( -name '*.c' -o -name '*.h' \) -print0 | xargs -0 cat | wc -l
+	@echo "Non-Blank lines of C/H files:"
+	@find $(NEMU_HOME) -type f \( -name '*.c' -o -name '*.h' \) -print0 | xargs -0 cat | grep -cv '^[[:space:]]*$$'
+
