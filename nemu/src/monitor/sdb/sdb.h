@@ -18,6 +18,15 @@
 
 #include <common.h>
 
-word_t expr(char *e, bool *success);
+#define NR_WP 32
+
+#define WP_EXPR_LEN 256
+
+word_t expr(const char *e, bool *success);
+int create_wp(const char *expression);
+void display_watchpoints(void);
+int delete_wp(int in);
+bool check_watchpoints(void);
+bool empty_wp(void);
 
 #endif
