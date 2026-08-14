@@ -110,7 +110,7 @@ int create_wp(const char *expression) {
 
 void display_watchpoints(void) {
 	if(head == NULL) {
-		printf("[Error]: Empty watchpoints pool!\n");
+		printf("%s: Empty watchpoints pool!\n", ANSI_FMT("[ERROR]",ANSI_FG_RED));
 		return;
 	}
 	printf("NO\tValue\tExpression\n");
@@ -133,7 +133,7 @@ int delete_wp(int no) {
 		}
 		wp = wp->next;
 	}
-	printf("[Error]: WatchPoint %d doesn't exist!\n",no);
+	printf("%s: WatchPoint %d doesn't exist!\n",ANSI_FMT("[ERROR]",ANSI_FG_RED),no);
 	return 0;
 }
 
@@ -144,13 +144,13 @@ bool check_watchpoints(void) {
 		bool success;
 		word_t new_value = expr(wp->expression,&success);
 		if(!success) {
-			printf("[Error]: Can't evaluate watchpoints' expression\n");
+			printf("%s: Can't evaluate watchpoints' expression\n",ANSI_FMT("[ERROR]",ANSI_FG_RED));
 			printf("NO: %d\n",wp->NO);
 			printf("Expression: %s\n",wp->expression);
 			printf("Old_value: " FMT_WORD "\n",wp->old_value);
 		}
 		if(new_value != wp->old_value) {
-			printf("[CHANGE]!\n");
+			printf("%s\n", ANSI_FMT("CHANGED!", ANSI_FG_RED));
 			printf("NO: %d\n",wp->NO);
 			printf("Expression: %s\n",wp->expression);
 			printf("Old_value: " FMT_WORD "\n",wp->old_value);

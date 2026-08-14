@@ -76,13 +76,13 @@ static void gen_rand_op(void) {
 
 static int depth = 0; 	//避免缓冲区溢出问题
 
-static void gen_nonZero_num(void) {
+/*static void gen_nonZero_num(void) {
 	unsigned num = (unsigned)rand() % 10000u + 1;
 	int len = snprintf(buf + buf_pos,sizeof(buf) - buf_pos,"%uu",num);
 	int oracle_len = snprintf(oracle_buf + oracle_pos,sizeof(oracle_buf) - oracle_pos,"%u",num);
 	buf_pos += len;
 	oracle_pos += oracle_len;
-}
+}*/
 
 static void gen_rand_expr() {
 	if(depth == 10) {
@@ -93,7 +93,7 @@ static void gen_rand_expr() {
 	switch (choose(3)) {
 		case 0 : gen_num(); break;
 		case 1 : gen('('); gen_rand_expr(); gen(')'); break;
-		default : gen_rand_expr(); gen_rand_op(); gen_nonZero_num()/*gen_rand_expr()*/; break;
+		default : gen_rand_expr(); gen_rand_op(); /*gen_nonZero_num()*/gen_rand_expr(); break;
 	}
 	depth--;
 }
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
     fputs(code_buf, fp);
     fclose(fp);
 
-    int ret = system("gcc /tmp/.code.c -o /tmp/.expr 2>/dev/null");
+    int ret = system("gcc -Wall -Werror /tmp/.code.c -o /tmp/.expr 2>/dev/null");
     if (ret != 0) continue;
 
     fp = popen("/tmp/.expr 2>/dev/null", "r");

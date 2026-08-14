@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
   printf("%s\n", ANSI_FMT("WatchPoints ON!", ANSI_FG_GREEN));
 #else
   printf("%s\n", ANSI_FMT("WatchPoints OFF!", ANSI_FG_RED));
-  printf("%s\n", ANSI_FMT("You can run 'make nemuconfig' under '$NPC_HOME' to turn it ON!\n", ANSI_FG_RED));
+  printf("%s\n", ANSI_FMT("You can run 'make nemuconfig' under '$NPC_HOME' to turn it ON!", ANSI_FG_RED));
 #endif
 
   /* Start engine. */

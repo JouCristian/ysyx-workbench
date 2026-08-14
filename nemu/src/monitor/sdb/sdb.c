@@ -162,7 +162,8 @@ static bool test_p_from_file(const char *filename) {
 				passed++;
 			}
 			else {
-				printf("[TEST-p] Failed at case #%d: Expression:%s Expected:%u Actual:%u\n",
+				printf("%s At case #%d: Expression:%s Expected:%u Actual:%u\n",
+						ANSI_FMT("[TEST-p-Failed]",ANSI_FG_RED),
 						total,expr_str,(word_t)expected,actual);
 				return false;
 			}
@@ -172,7 +173,7 @@ static bool test_p_from_file(const char *filename) {
 		}
 	}
 	fclose(fp);
-	printf("[TEST-p] PASS: %d/%d expression passed.\n",passed,total);
+	printf("%s %d/%d expression passed.\n",ANSI_FMT("[TEST-p-Over]",ANSI_FG_GREEN),passed,total);
 	return passed == total;
 }
 
@@ -202,7 +203,7 @@ static int test_p(char *args) {
 	}
 	char command[256];
 	snprintf(command,sizeof(command),"./tools/gen-expr/build/gen-expr %ld > /tmp/nemu-expr-input",value);
-	printf("[TEST-p] Generating %ld random expression......\n",value);
+	printf("%s Generating %ld random expression......\n",ANSI_FMT("[TEST-p]",ANSI_FG_GREEN), value);
 	int ret = system(command);
 	if(ret != 0) {
 		printf("[Error]: Failed to run expression generator.\n");
@@ -210,7 +211,7 @@ static int test_p(char *args) {
 	}
 	printf("[TEST-p] Expression cases generated successfully.\n");
 	if(test_p_from_file("/tmp/nemu-expr-input")){
-		printf("[TEST-p] TEST PASSED!\n");	
+		printf("%s\n", ANSI_FMT("[TEST-p] PASSED!", ANSI_FG_GREEN));	
 	}
 
 	return 0;	
@@ -258,7 +259,7 @@ static int cmd_p(char *args) {
 
 static void printFomatError_cmd_x(int current_argNum) {
 	printf("[Fomat Error]: 'x' should followed with 2 args.\n");
-	printf("Now only has %d args", current_argNum);
+	printf("Now only has %d args\n", current_argNum);
 }
 
 static int cmd_x(char *args) {
